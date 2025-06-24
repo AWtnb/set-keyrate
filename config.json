@@ -1,8 +1,5 @@
 {
     "taskPath": "\\Keyrate-setting\\",
-    "taskName": {
-        "startup": "startup"
-    },
     "delay": 200,
     "rate": 12
 }

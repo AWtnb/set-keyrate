@@ -23,16 +23,13 @@ Invoke-Expression -Command $command
 $action = New-ScheduledTaskAction -Execute conhost.exe -Argument "--headless $command"
 $settings = New-ScheduledTaskSettingsSet -Hidden -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries
 
-$startupTaskName = $config.TaskName.startup
+$startupTaskName = "startup"
 $startupTrigger = New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME
-
-if ($null -ne (Get-ScheduledTask -TaskPath $taskPath -TaskName $startupTaskName -ErrorAction SilentlyContinue)) {
-    Unregister-ScheduledTask -TaskPath $taskPath -TaskName $startupTaskName -Confirm:$false
-}
 
 Register-ScheduledTask -TaskName $startupTaskName `
     -TaskPath $taskPath `
     -Action $action `
     -Trigger $startupTrigger `
     -Description "Set keyrate." `
-    -Settings $settings
+    -Settings $settings `
+    -Force

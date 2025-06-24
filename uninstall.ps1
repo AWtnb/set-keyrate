@@ -1,7 +1,5 @@
 $config = Get-Content -Path $($PSScriptRoot | Join-Path -ChildPath "config.json") | ConvertFrom-Json
-$($config.taskName | Get-Member -MemberType NoteProperty).Name | ForEach-Object {
-    Unregister-ScheduledTask -TaskPath $config.taskPath -TaskName $_ -Confirm:$false -ErrorAction SilentlyContinue
-}
+Get-ScheduledTask -TaskPath $config.taskPath | Unregister-ScheduledTask -Confirm:$false -ErrorAction SilentlyContinue
 
 $appDirPath = $env:APPDATA | Join-Path -ChildPath $($PSScriptRoot | Split-Path -Leaf)
 
