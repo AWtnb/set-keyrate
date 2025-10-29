@@ -10,11 +10,11 @@ $src = $PSScriptRoot | Join-Path -ChildPath "set-keyrate.ps1" | Copy-Item -Desti
 
 $delay = $config.delay
 $rate = $config.rate
-$command = "powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"$src`" $delay $rate"
+$command = "-NoProfile -ExecutionPolicy Bypass -File `"$src`" $delay $rate"
 
-Invoke-Expression -Command $command
+Invoke-Expression -Command "powershell.exe $command"
 
-$action = New-ScheduledTaskAction -Execute conhost.exe -Argument "--headless $command"
+$action = New-ScheduledTaskAction -Execute powershell.exe -Argument $command
 $settings = New-ScheduledTaskSettingsSet -Hidden -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries
 
 $startupTaskName = "startup"
